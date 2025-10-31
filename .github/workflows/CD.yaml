@@ -1,0 +1,65 @@
+name: CD
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  
+
+jobs:
+  CD:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_NTU }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_NTU }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Settings Environment Variables 
+      run: |
+        if [ "${{ github.ref_name }}" = "main" ]; then
+          WORKSPACE="prod"
+          BACKEND_KEY="prod_infra_terraform.tfstate"
+          ALLOWED_ORIGIN="${{ secrets.PROD_ALLOWED_ORIGIN}}"
+        else
+          WORKSPACE="dev"
+          BACKEND_KEY="dev_infra_terraform.tfstate"
+          ALLOWED_ORIGIN="${{ secrets.DEV_ALLOWED_ORIGIN}}"
+        fi
+
+        echo "Using Terraform workspace: $WORKSPACE"
+        echo "Using Terraform backend key: $BACKEND_KEY"
+        echo "using Allowed Origin: $ALLOWED_ORIGIN"
+
+        echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
+        echo "BACKEND_KEY=$BACKEND_KEY" >> $GITHUB_ENV
+        echo "ALLOWED_ORIGIN=$ALLOWED_ORIGIN" >> $GITHUB_ENV
+
+    # - name: Terraform fmt
+    #   run: terraform fmt -check
+    
+    - name: Terraform Init
+      env:
+        # Pass the variables explicitly from the environment context
+        BACKEND_KEY: ${{ env.BACKEND_KEY }}
+      run: |
+        echo "Using Terraform backend key: $BACKEND_KEY"
+        terraform init -reconfigure -backend-config="key=$BACKEND_KEY"
+    
+    - name: Select or Create Workspace
+      run: |
+        terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -var "allowed_origin=$ALLOWED_ORIGIN"
