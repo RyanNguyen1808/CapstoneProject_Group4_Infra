@@ -1,4 +1,4 @@
-name: CD
+name: DESTROY
 
 on:
   workflow_dispatch:
@@ -8,8 +8,7 @@ env:
   
 
 jobs:
-  CD:
-    if: "!contains(github.event.head_commit.message, '[skip cicd]')"
+  DESTROY:
     runs-on: ubuntu-latest
 
     steps:
@@ -53,12 +52,8 @@ jobs:
         echo "BACKEND_KEY=$BACKEND_KEY" >> $GITHUB_ENV
         echo "ALLOWED_ORIGIN=$ALLOWED_ORIGIN" >> $GITHUB_ENV
 
-    # - name: Terraform fmt
-    #   run: terraform fmt -check
-    
     - name: Terraform Init
       env:
-        # Pass the variables explicitly from the environment context
         BACKEND_KEY: ${{ env.BACKEND_KEY }}
       run: |
         echo "Using Terraform backend key: $BACKEND_KEY"
@@ -68,5 +63,5 @@ jobs:
       run: |
         terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -var "allowed_origin=$ALLOWED_ORIGIN"
+    - name: Terraform Destroy
+      run: terraform destroy
