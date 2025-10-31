@@ -1,5 +1,5 @@
 resource "aws_cognito_user_pool" "user_pool" {
-  name = "${var.name_prefix}-user-pool"
+  name = "${var.name_prefix}-user-pool-${terraform.workspace}"
 
   username_attributes = ["email"]
 
@@ -15,7 +15,7 @@ resource "aws_cognito_user_pool" "user_pool" {
 }
 
 resource "aws_cognito_user_pool_client" "app" {
-  name         = "${var.name_prefix}-app-client"
+  name         = "${var.name_prefix}-app-client-${terraform.workspace}"
   user_pool_id = aws_cognito_user_pool.user_pool.id
 
   allowed_oauth_flows_user_pool_client = true
