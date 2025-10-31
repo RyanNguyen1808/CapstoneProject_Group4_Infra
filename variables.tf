@@ -40,24 +40,28 @@ variable "cognito_auth_domain" {
   description = "Cognito Auth Domain"
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "region" {
   type        = string
   default     = "us-east-1"
   description = "Region"
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "domain" {
   type        = string
   description = "Domain used for Capstone Project"
   default     = "sctp-sandbox.com"
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "bucket_name" {
   type        = string
   description = "Bucket for hosting the Web App Frontend"
   default     = "frontendwebapp"
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "allowed_origin" {
   type        = string
   description = "Frontend origin allowed to access API"
