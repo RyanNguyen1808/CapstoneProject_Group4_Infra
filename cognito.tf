@@ -42,13 +42,3 @@ resource "aws_cognito_user_pool_domain" "domain" {
   domain       = "${var.cognito_auth_domain}-auth-${local.workspace_safe}"
   user_pool_id = aws_cognito_user_pool.user_pool.id
 }
-
-resource "aws_api_gateway_authorizer" "cognito" {
-  name                   = "cognito-authorizer"
-  rest_api_id            = "" # Link to API Resource if needed
-  authorizer_uri         = "" # Not needed for Cognito, see next
-  authorizer_credentials = null
-  type                   = "COGNITO_USER_POOLS"
-  provider_arns          = [aws_cognito_user_pool.user_pool.arn]
-  identity_source        = "method.request.header.Authorization"
-}
