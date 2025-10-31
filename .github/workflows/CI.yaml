@@ -3,6 +3,11 @@ name: CI
 on:
   push:
     branches:
+      - 'feature/*'
+      - 'fix/*'
+      - 'bugfix/*'
+  pull_request:
+    branches:
       - dev
   workflow_dispatch:
 
@@ -12,7 +17,6 @@ env:
 
 jobs:
   CI:
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
 
     steps:
@@ -31,14 +35,21 @@ jobs:
 
     - name: Settings Environment Variables 
       run: |
-        if [ "${{ github.ref_name }}" = "main" ]; then
+        BRANCH="${{ github.ref_name }}"
+        ACTOR="${{ github.actor }}"
+        
+        if [ "$BRANCH" = "main" ]; then
           WORKSPACE="prod"
           BACKEND_KEY="prod_infra_terraform.tfstate"
           ALLOWED_ORIGIN="${{ secrets.PROD_ALLOWED_ORIGIN}}"
-        else
+        elif [ "$BRANCH" = "dev" ]; then
           WORKSPACE="dev"
           BACKEND_KEY="dev_infra_terraform.tfstate"
           ALLOWED_ORIGIN="${{ secrets.DEV_ALLOWED_ORIGIN}}"
+        else
+          WORKSPACE="sandbox-${ACTOR}"
+          BACKEND_KEY="sandbox_${ACTOR}_infra_terraform.tfstate"
+          ALLOWED_ORIGIN="${{ secrets.DEV_ALLOWED_ORIGIN }}"
         fi
 
         echo "Using Terraform workspace: $WORKSPACE"
@@ -54,7 +65,6 @@ jobs:
     
     - name: Terraform Init
       env:
-        # Pass the variables explicitly from the environment context
         BACKEND_KEY: ${{ env.BACKEND_KEY }}
       run: |
         echo "Using Terraform backend key: $BACKEND_KEY"
