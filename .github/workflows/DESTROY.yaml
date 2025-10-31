@@ -64,4 +64,4 @@ jobs:
         terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
 
     - name: Terraform Destroy
-      run: terraform destroy
+      run: terraform destroy -auto-approve -var "allowed_origin=$ALLOWED_ORIGIN"
