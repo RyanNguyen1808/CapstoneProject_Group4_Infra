@@ -4,7 +4,7 @@ resource "aws_api_gateway_rest_api" "api" {
   description = "API for Capstone Project"
 }
 
-resource "aws_api_gateway_deployment" "vessel_tracking_api" {
+resource "aws_api_gateway_deployment" "api" {
   # checkov:skip=CKV_AWS_217: Ensure Create before destroy for API deployments - Not Compliant
   rest_api_id = aws_api_gateway_rest_api.api.id
   depends_on = [
@@ -34,6 +34,6 @@ resource "aws_api_gateway_stage" "api_stage" {
   # but you can add it to the list here if needed.
   count = (contains(["dev", "prod"], local.workspace_safe) || startswith(local.workspace_safe, "sandbox-")) ? 1 : 0
 
-  rest_api_id   = aws_api_gateway_rest_api.vessel_tracking_api.id
-  deployment_id = aws_api_gateway_deployment.vessel_tracking_api.id
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  deployment_id = aws_api_gateway_deployment.api.id
 }
