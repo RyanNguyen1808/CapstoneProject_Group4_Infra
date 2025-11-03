@@ -34,14 +34,14 @@ resource "aws_api_gateway_integration" "topup_integration" {
   http_method             = aws_api_gateway_method.topup_post.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.topup_card.invoke_arn
+  uri                     = aws_lambda_function.topupcard_lambda.invoke_arn
 }
 
 # Lambda permission
 resource "aws_lambda_permission" "apigw_topup" {
   statement_id  = "AllowAPIGatewayInvokeTopup"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.topup_card.function_name
+  function_name = aws_lambda_function.topupcard_lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/POST/cards/*/topup"
 }
