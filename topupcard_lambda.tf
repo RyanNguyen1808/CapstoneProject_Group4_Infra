@@ -17,7 +17,7 @@ resource "aws_lambda_function" "topupcard_lambda" {
 
   environment {
     variables = {
-      CARDS_TABLE   = "${var.name_prefix}-${var.cards_table_name}-${local.workspace_safe}"
+      CARDS_TABLE = "${var.name_prefix}-${var.cards_table_name}-${local.workspace_safe}"
     }
   }
 
