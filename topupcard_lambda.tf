@@ -8,7 +8,7 @@ resource "aws_lambda_function" "topupcard_lambda" {
   function_name = "${var.name_prefix}-topup-card-api-${local.workspace_safe}"
   description   = "Lambda function to top up in dynamoDB for -${local.workspace_safe}"
   runtime       = "python3.12"
-  handler       = "lambda_function.lambda_handler"
+  handler       = "TopupCard.lambda_handler"
   role          = aws_iam_role.lambda_exec.arn
   memory_size   = 256 # Increase memory (default is 128 MB)
   timeout       = 10  # Increase timeout in seconds (default is 3)
