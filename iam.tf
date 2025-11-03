@@ -31,7 +31,7 @@ resource "aws_iam_policy" "lambda_exec_role" {
                 "dynamodb:PutItem",
                 "dynamodb:DeleteItem",
                 "dynamodb:Scan",
-                "dynamodb:UpdateItem",
+                "dynamodb:UpdateItem"
             ],
             "Resource": [
                 "${aws_dynamodb_table.cards.arn}"
