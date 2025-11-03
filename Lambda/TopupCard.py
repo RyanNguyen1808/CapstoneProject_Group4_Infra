@@ -1,5 +1,6 @@
 import json
 import boto3
+import os
 from decimal import Decimal
 
 table_name = os.environ.get("CARDS_TABLE")
