@@ -26,7 +26,7 @@ resource "aws_api_gateway_stage" "api_stage" {
   # checkov:skip=CKV2_AWS_4:Ensure API Gateway stage have logging level defined as appropriate - Not Compliant
   # checkov:skip=CKV2_AWS_29:Ensure public API gateway are protected by WAF - Not Compliant
   # Use the current workspace name for the stage name
-  stage_name = terraform.workspace
+  stage_name = local.workspace_safe
 
   # The count argument is the key:
   # It creates this resource ONLY if the current workspace is 'dev' or 'prod'.
