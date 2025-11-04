@@ -3,10 +3,6 @@ name: CD
 on:
   workflow_dispatch:
 
-env:
-  AWS_REGION: us-east-1
-  
-
 jobs:
   CD:
     if: "!contains(github.event.head_commit.message, '[skip cicd]')"
@@ -24,7 +20,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_NTU }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_NTU }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Settings Environment Variables 
       run: |
@@ -58,11 +54,13 @@ jobs:
     
     - name: Terraform Init
       env:
-        # Pass the variables explicitly from the environment context
         BACKEND_KEY: ${{ env.BACKEND_KEY }}
       run: |
         echo "Using Terraform backend key: $BACKEND_KEY"
-        terraform init -reconfigure -backend-config="key=$BACKEND_KEY"
+        terraform init -reconfigure \
+            -backend-config="bucket=$S3_BUCKET_FOR_TF_STATE_FILE" \
+            -backend-config="region=${{ secrets.AWS_REGION }}" \
+            -backend-config="key=$BACKEND_KEY"
     
     - name: Select or Create Workspace
       run: |
