@@ -8,7 +8,7 @@ resource "aws_lambda_function" "topupcard_lambda" {
   function_name = "${var.name_prefix}-topup-card-api-${local.workspace_safe}"
   description   = "Lambda function to top up in dynamoDB for -${local.workspace_safe}"
   runtime       = "python3.12"
-  handler       = "lambda_function.lambda_handler"
+  handler       = "TopupCard.lambda_handler"
   role          = aws_iam_role.lambda_exec.arn
   memory_size   = 256 # Increase memory (default is 128 MB)
   timeout       = 10  # Increase timeout in seconds (default is 3)
@@ -17,7 +17,7 @@ resource "aws_lambda_function" "topupcard_lambda" {
 
   environment {
     variables = {
-      CARDS_TABLE   = "${var.name_prefix}-${var.cards_table_name}-${local.workspace_safe}"
+      CARDS_TABLE = "${var.name_prefix}-${var.cards_table_name}-${local.workspace_safe}"
     }
   }
 
@@ -42,5 +42,5 @@ resource "aws_lambda_permission" "apigw_invoke" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.topupcard_lambda.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/POST/cards/*/topup"
 }

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_exec" {
-  name = "${var.name_prefix}-lamda-api-executionrole-${local.workspace_safe}"
+  name = "${var.name_prefix}-lambda-exe-role-${local.workspace_safe}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -18,7 +18,7 @@ resource "aws_iam_role" "lambda_exec" {
 resource "aws_iam_policy" "lambda_exec_role" {
   # checkov:skip=CKV_AWS_355:Ensure no IAM policies documents allow "*" as a statement's resource for restrictable actions - Not Compliant
   # checkov:skip=CKV_AWS_290:Ensure IAM policies does not allow write access without constraints - Not Compliant
-  name = "${var.name_prefix}-lamda-api-ddbaccess-${terraform.workspace}"
+  name = "${var.name_prefix}-lamda-api-ddbaccess-${local.workspace_safe}"
 
   policy = <<POLICY
 {
@@ -30,7 +30,8 @@ resource "aws_iam_policy" "lambda_exec_role" {
                 "dynamodb:GetItem",
                 "dynamodb:PutItem",
                 "dynamodb:DeleteItem",
-                "dynamodb:Scan"
+                "dynamodb:Scan",
+                "dynamodb:UpdateItem"
             ],
             "Resource": [
                 "${aws_dynamodb_table.cards.arn}"
