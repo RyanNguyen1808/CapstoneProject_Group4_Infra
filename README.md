@@ -37,5 +37,6 @@ curl -X POST \
   -d '{"amount": 50}'
 
 ## Sync website and invalidate the cache
-aws s3 sync . s3://frontend-webapp-dev
-aws cloudfront create-invalidation --distribution-id EFFFV4QU4EWLT --path "/index.html"
+aws s3 sync . s3://BUCKET_NAME
+
+aws cloudfront create-invalidation --distribution-id DISTRIBUTION_ID --path "/index.html"
