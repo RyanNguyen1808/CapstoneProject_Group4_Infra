@@ -9,8 +9,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "dummy-bucket"  # placeholder; will be overridden in CLI
-    key    = "dummy/path/terraform.tfstate"  # placeholder
-    region = "us-east-1"  # placeholder
+    bucket = "dummy-bucket"                 # placeholder; will be overridden in CLI
+    key    = "dummy/path/terraform.tfstate" # placeholder
+    region = "us-east-1"                    # placeholder
   }
 }
