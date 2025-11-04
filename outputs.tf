@@ -1,3 +1,24 @@
 output "api_invoke_url" {
-  value = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.region}.amazonaws.com/${local.workspace_safe}"
+  description = "API Invoke URL."
+  value       = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.region}.amazonaws.com/${local.workspace_safe}"
+}
+
+output "cloudfront_distribution_id" {
+  description = "Cloudfront Distribution ID."
+  value       = aws_cloudfront_distribution.s3_distribution.id
+}
+
+output "cognito_user_pool_id" {
+  description = "The unique ID of the AWS Cognito User Pool."
+  value       = aws_cognito_user_pool.user_pool.id
+}
+
+output "cognito_user_pool_client_id" {
+  description = "The Client ID for the Angular application (User Pool App Client ID)."
+  value       = aws_cognito_user_pool_client.app.id
+}
+
+output "s3_bucket_name" {
+  description = "The name of the S3 bucket created for static frontend hosting."
+  value       = aws_s3_bucket.static_bucket.bucket
 }
