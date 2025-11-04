@@ -50,7 +50,7 @@ resource "aws_api_gateway_domain_name" "custom" {
 
 resource "aws_api_gateway_base_path_mapping" "mapping" {
   depends_on  = [data.aws_api_gateway_domain_name.custom_ready]
-  count = (contains(["dev", "prod"], local.workspace_safe) || startswith(local.workspace_safe, "sandbox-")) ? 1 : 0
+  count       = (contains(["dev", "prod"], local.workspace_safe) || startswith(local.workspace_safe, "sandbox-")) ? 1 : 0
   api_id      = aws_api_gateway_rest_api.api.id
   stage_name  = aws_api_gateway_stage.api_stage[0].stage_name
   domain_name = aws_api_gateway_domain_name.custom.domain_name
