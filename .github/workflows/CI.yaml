@@ -23,6 +23,8 @@ jobs:
       uses: hashicorp/setup-terraform@v3
 
     - name: Configure AWS Credentials
+      env:
+        AWS_REGION: $AWS_REGION
       uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_NTU }}
@@ -62,6 +64,7 @@ jobs:
     - name: Terraform Init
       env:
         BACKEND_KEY: ${{ env.BACKEND_KEY }}
+        AWS_REGION: $AWS_REGION
       run: |
         echo "Using Terraform backend key: $BACKEND_KEY"
         terraform init -reconfigure \
