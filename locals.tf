@@ -3,6 +3,5 @@ locals {
   workspace_safe        = lower(terraform.workspace)
   alternate_domain_name = "${var.name_prefix}.${local.workspace_safe}.${var.domain}"
   www_domain_name       = "www.${var.name_prefix}.${local.workspace_safe}.${var.domain}"
-  s3_bucket_name        = aws_s3_bucket.static_bucket.bucket
   s3_origin_id          = "${aws_s3_bucket.static_bucket.bucket}-Origin"
 }
