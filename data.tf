@@ -27,7 +27,7 @@ data "aws_route53_zone" "zone" {
   name = var.domain
 }
 
-# data "aws_api_gateway_domain_name" "custom_ready" {
-#   depends_on  = [aws_api_gateway_domain_name.custom]
-#   domain_name = aws_api_gateway_domain_name.custom.domain_name
-# }
+data "aws_api_gateway_domain_name" "custom_ready" {
+  depends_on  = [aws_api_gateway_domain_name.custom]
+  domain_name = aws_api_gateway_domain_name.custom.domain_name
+}
