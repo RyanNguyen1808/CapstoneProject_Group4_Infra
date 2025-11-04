@@ -9,7 +9,6 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "sctp-ce11-tfstate/${var.name_prefix}"
-    region = "us-east-1"
+
   }
 }
