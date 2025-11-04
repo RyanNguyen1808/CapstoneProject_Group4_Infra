@@ -29,7 +29,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_NTU }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_NTU }}
-        aws-region: $AWS_REGION
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Settings Environment Variables 
       run: |
@@ -64,12 +64,11 @@ jobs:
     - name: Terraform Init
       env:
         BACKEND_KEY: ${{ env.BACKEND_KEY }}
-        AWS_REGION: $AWS_REGION
       run: |
         echo "Using Terraform backend key: $BACKEND_KEY"
         terraform init -reconfigure \
             -backend-config="bucket=$S3_BUCKET_FOR_TF_STATE_FILE" \
-            -backend-config="region=$AWS_REGION" \
+            -backend-config="region=${{ secrets.AWS_REGION }}" \
             -backend-config="key=$BACKEND_KEY"
     
     - name: Terraform Validate
