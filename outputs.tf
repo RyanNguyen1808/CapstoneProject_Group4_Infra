@@ -22,3 +22,8 @@ output "s3_bucket_name" {
   description = "The name of the S3 bucket created for static frontend hosting."
   value       = aws_s3_bucket.static_bucket.bucket
 }
+
+output "website_url" {
+  description = "Front End Website URL"
+  value       = "https://${var.domain}"
+}
