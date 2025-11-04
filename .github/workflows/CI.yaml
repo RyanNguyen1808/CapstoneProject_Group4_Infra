@@ -67,9 +67,9 @@ jobs:
       run: |
         echo "Using Terraform backend key: ${{ vars.S3_KEY_FOR_TF_STATE_FILE }}/${{ env.BACKEND_KEY }}"
         terraform init -reconfigure \
-            -backend-config="bucket=$S3_BUCKET_FOR_TF_STATE_FILE" \
+            -backend-config="bucket=${{ vars.S3_BUCKET_FOR_TF_STATE_FILE}}" \
             -backend-config="region=${{ secrets.AWS_REGION }}" \
-            -backend-config="key=$S3_KEY_FOR_TF_STATE_FILE/$BACKEND_KEY"            
+            -backend-config="key=${{ vars.S3_KEY_FOR_TF_STATE_FILE }}/${{ env.BACKEND_KEY }}"            
     
     - name: Terraform Validate
       run: terraform validate
