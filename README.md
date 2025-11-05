@@ -40,3 +40,22 @@ curl -X POST \
 aws s3 sync . s3://{OUTPUT s3_bucket_name}
 
 aws cloudfront create-invalidation --distribution-id {OUTPUT cloudfront_distribution_id} --path "/index.html"
+
+## Create User in Cognito
+aws cognito-idp admin-create-user \
+  --user-pool-id <YOUR_USER_POOL_ID> \
+  --username <EMAIL_OR_USERNAME> \
+  --user-attributes Name=email,Value=<EMAIL_ADDRESS>
+
+## Change Password
+aws cognito-idp admin-set-user-password \
+  --user-pool-id <YOUR_USER_POOL_ID> \
+  --username <EMAIL_OR_USERNAME> \
+  --password "<STRONG_PASSWORD>" \
+  --permanent
+
+## Get Token Access
+aws cognito-idp initiate-auth \
+  --auth-flow USER_PASSWORD_AUTH \
+  --client-id <YOUR_APP_CLIENT_ID> \
+  --auth-parameters USERNAME=<USERNAME>,PASSWORD=<PASSWORD>
