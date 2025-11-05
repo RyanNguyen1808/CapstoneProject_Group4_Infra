@@ -11,7 +11,7 @@ resource "aws_api_gateway_deployment" "api" {
     aws_api_gateway_method.topup_post,
     aws_api_gateway_integration.topup_integration,
     aws_api_gateway_method.add_post,
-    aws_api_gateway_integration.add_integration,
+    aws_api_gateway_integration.add_card_integration,
   ]
 
   triggers = {
@@ -19,7 +19,7 @@ resource "aws_api_gateway_deployment" "api" {
       aws_api_gateway_method.topup_post.id,
       aws_api_gateway_integration.topup_integration.id,
       aws_api_gateway_method.add_post.id,
-      aws_api_gateway_integration.add_integration.id
+      aws_api_gateway_integration.add_card_integration.id
     ]))
   }
 }
