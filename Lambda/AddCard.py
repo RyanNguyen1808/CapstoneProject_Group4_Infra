@@ -2,7 +2,7 @@ import json
 import boto3
 import os
 
-table_name = dynamodb.Table(os.environ['CARDS_TABLE'])
+table_name = os.environ.get("CARDS_TABLE")
 if not table_name:
     raise ValueError("Environment variable CARDS_TABLE is not set")
 
@@ -12,7 +12,7 @@ table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):
     # Get card_number from path parameters
-    card_number = event["pathParameters"]["card_number"]
+    card_number = event["pathParameters"]["cardId"]
 
     # Get JSON body
     body = json.loads(event["body"])
