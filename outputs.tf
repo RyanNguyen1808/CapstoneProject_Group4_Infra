@@ -25,5 +25,5 @@ output "s3_bucket_name" {
 
 output "website_url" {
   description = "Front End Website URL"
-  value       = "https://${var.domain}"
+  value       = "https://${var.name_prefix}.${local.workspace_safe}.${var.domain}"
 }

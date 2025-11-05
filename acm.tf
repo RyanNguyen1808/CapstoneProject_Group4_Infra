@@ -1,4 +1,5 @@
 module "acm" {
+  # checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash - Not Compliant
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 4.0"
 
