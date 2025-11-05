@@ -3,6 +3,11 @@ output "api_invoke_url" {
   value       = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.region}.amazonaws.com/${local.workspace_safe}"
 }
 
+output "api_invoke_custom_url" {
+  description = "API Invoke Custom URL."
+  value       = "https://api.${var.name_prefix}.${local.workspace_safe}.${var.domain}/${local.workspace_safe}"
+}
+
 output "cloudfront_distribution_id" {
   description = "Cloudfront Distribution ID."
   value       = aws_cloudfront_distribution.s3_distribution.id

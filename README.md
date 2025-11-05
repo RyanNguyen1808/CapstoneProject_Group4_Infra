@@ -32,7 +32,7 @@ aws dynamodb put-item \
 
 ## TEST API
 curl -X POST \
-  https://jkqz42pkd2.execute-api.us-east-1.amazonaws.com/sandbox-ryannguyen1808/cards/123456789/topup \
+  {OUTPUT api_invoke_custom_url}/cards/123456789/topup \
   -H "Content-Type: application/json" \
   -d '{"amount": 50}'
 
