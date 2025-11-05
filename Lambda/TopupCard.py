@@ -14,7 +14,7 @@ table = dynamodb.Table(table_name)
 def lambda_handler(event, context):
     try:
         # Extract cardId from path parameters
-        card_id = event['pathParameters']['cardId']
+        card_number = event['pathParameters']['cardId']
         
         # Parse JSON payload
         body = json.loads(event['body'])
@@ -27,7 +27,7 @@ def lambda_handler(event, context):
         
         # Update DynamoDB balance atomically
         response = table.update_item(
-            Key={"CARD_NUMBER": card_id},
+            Key={"CARD_NUMBER": card_number},
             UpdateExpression="SET BALANCE = if_not_exists(BALANCE, :zero) + :topup",
             ExpressionAttributeValues={
                 ":topup": Decimal(str(topup_amount)),

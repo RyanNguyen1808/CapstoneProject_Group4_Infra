@@ -9,13 +9,17 @@ resource "aws_api_gateway_deployment" "api" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   depends_on = [
     aws_api_gateway_method.topup_post,
-    aws_api_gateway_integration.topup_integration
+    aws_api_gateway_integration.topup_integration,
+    aws_api_gateway_method.add_post,
+    aws_api_gateway_integration.add_card_integration,
   ]
 
   triggers = {
     redeployment = sha1(jsonencode([
       aws_api_gateway_method.topup_post.id,
-      aws_api_gateway_integration.topup_integration.id
+      aws_api_gateway_integration.topup_integration.id,
+      aws_api_gateway_method.add_post.id,
+      aws_api_gateway_integration.add_card_integration.id
     ]))
   }
 }
@@ -60,4 +64,14 @@ resource "aws_api_gateway_base_path_mapping" "mapping" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "aws_api_gateway_authorizer" "cognito" {
+  name                   = "cognito-authorizer"
+  rest_api_id            = aws_api_gateway_rest_api.api.id
+  authorizer_uri         = "" # Not needed for Cognito, see next
+  authorizer_credentials = null
+  type                   = "COGNITO_USER_POOLS"
+  provider_arns          = [aws_cognito_user_pool.user_pool.arn]
+  identity_source        = "method.request.header.Authorization"
 }

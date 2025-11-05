@@ -18,10 +18,12 @@ resource "aws_cognito_user_pool_client" "app" {
   name         = "${var.name_prefix}-app-client-${local.workspace_safe}"
   user_pool_id = aws_cognito_user_pool.user_pool.id
 
-  allowed_oauth_flows_user_pool_client = true
-  allowed_oauth_flows                  = ["code"] # Use Authorization Code Flow
-  allowed_oauth_scopes = concat(
-  ["openid", "profile", "email"])
+  explicit_auth_flows = [
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH",
+  ]
+
+  generate_secret = false
 
   callback_urls = [
     var.dev_callback_url, # for local dev
