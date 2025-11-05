@@ -5,7 +5,7 @@ resource "aws_lambda_function" "addcard_lambda" {
   # checkov:skip=CKV_AWS_173:Check encryption settings for Lambda environmental variable - Not Compliant
   # checkov:skip=CKV_AWS_115:Ensure that AWS Lambda function is configured for function-level concurrent execution limit - Not Compliant
   # checkov:skip=CKV_AWS_272:Ensure AWS Lambda function is configured to validate code-signing - Not Compliant
-  function_name = "${var.name_prefix}-taddup-card-api-${local.workspace_safe}"
+  function_name = "${var.name_prefix}-addup-card-api-${local.workspace_safe}"
   description   = "Lambda function to add card in dynamoDB for -${local.workspace_safe}"
   runtime       = "python3.12"
   handler       = "AddCard.lambda_handler"
