@@ -14,10 +14,15 @@
 ## REPO VARIABLES
 * S3_BUCKET_FOR_TF_STATE_FILE = **ce11-capstone-group4**
 
-## As of xxx, the following components have been done
+## INSTRUCTIONS
+* **Kindly read the output of CD carefully and mark down all the values as they are needed for API Calls, Cognito User Creation**
+
+## As of 8th November 2025, the following components have been done
 * S3 bucket for website
-* Cloudfront Distribution linked to S3 Origin
+* Cloudfront Distribution linked to S3 as Origin
+* Cognito for Authorization
 * API Gateway for Topup Card linked to Lambda Topup Card
+* API Gateway for Add Card linked to Lambda Add Card - Protected by Authorization Header
 * DynamoDB for Cards
 * DNS Records for website as well as custom domain for API Gateway
 
@@ -54,8 +59,15 @@ aws cognito-idp admin-set-user-password \
   --password "<STRONG_PASSWORD>" \
   --permanent
 
-## Get Token Access
+## Get Token Access for API
 aws cognito-idp initiate-auth \
   --auth-flow USER_PASSWORD_AUTH \
   --client-id <YOUR_APP_CLIENT_ID> \
   --auth-parameters USERNAME=<USERNAME>,PASSWORD=<PASSWORD>
+
+## Add Card Payload
+Sample URL: https://api.ce11-capstone-group4.sandbox-ryannguyen1808.sctp-sandbox.com/sandbox-ryannguyen1808/card/123456/add
+{
+  "UserId": "123123qasdasd",
+  "Balance": 15
+}
