@@ -23,7 +23,7 @@
 
 ## INSERT INTO DYNAMO DB TABLE
 aws dynamodb put-item \
-    --table-name ce11-capstone-group4-cards-sandbox-ryannguyen1808 \
+    --table-name {OUTPUT cards_table_name} \
     --item '{
         "CARD_NUMBER": {"S": "123456789"},
         "BALANCE": {"N": "0"}
