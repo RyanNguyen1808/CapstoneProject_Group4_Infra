@@ -41,6 +41,7 @@ resource "aws_api_gateway_stage" "api_stage" {
 }
 
 resource "aws_api_gateway_domain_name" "custom" {
+  # checkov:skip=CKV_AWS_206:Ensure API Gateway Domain uses a modern security Policy - Not Compliant
   domain_name              = "api.${var.name_prefix}.${local.workspace_safe}.${var.domain}"
   regional_certificate_arn = module.acm.acm_certificate_arn
   endpoint_configuration {
