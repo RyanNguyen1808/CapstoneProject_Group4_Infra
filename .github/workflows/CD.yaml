@@ -68,3 +68,16 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve -var "allowed_origin=$ALLOWED_ORIGIN"
+
+    - name: Get Terraform Output
+      run: |
+        echo "bucket_name=$(terraform output -raw s3_bucket_name)" >> $GITHUB_ENV
+        echo "distribution_id=$(terraform output -raw cloudfront_distribution_id)" >> $GITHUB_ENV
+
+    - name: Upload website to S3
+      run: |
+        aws s3 sync website/ s3://$bucket_name --delete --cache-control max-age=300 
+    
+    - name: Invalidate CloudFront cache
+      run: |
+        aws cloudfront create-invalidation --distribution-id $distribution_id --paths "/*"
