@@ -5,8 +5,9 @@
 ![Overal Architecture](/images/Capstone_Project_Infra.JPG "This is Overal Architecture.")
 
 ## REPO SECRETS
-* AWS_ACCESS_KEY_ID_NTU = **your-access-key-id**
-* AWS_SECRET_ACCESS_KEY_NTU = **your-secret-access-key**
+* AWS_ACCESS_KEY_ID_NTU = <your-access-key-id>
+* AWS_SECRET_ACCESS_KEY_NTU = <your-secret-access-key>
+* SNYK_TOKEN = <your-snyk-token>
 * AWS_REGION = **us-east-1**
 * DEV_ALLOWED_ORIGIN = *
 * PROD_ALLOWED_ORIGIN = *
@@ -28,7 +29,7 @@
 
 ## INSERT INTO DYNAMO DB TABLE
 aws dynamodb put-item \
-    --table-name {OUTPUT cards_table_name} \
+    --table-name <OUTPUT cards_table_name> \
     --item '{
         "CARD_NUMBER": {"S": "123456789"},
         "BALANCE": {"N": "0"}
@@ -37,14 +38,14 @@ aws dynamodb put-item \
 
 ## TEST API
 curl -X POST \
-  {OUTPUT api_invoke_custom_url}/cards/123456789/topup \
+  <OUTPUT api_invoke_custom_url>/cards/123456789/topup \
   -H "Content-Type: application/json" \
   -d '{"amount": 50}'
 
 ## Sync website and invalidate the cache
-aws s3 sync . s3://{OUTPUT s3_bucket_name}
+aws s3 sync . s3://<OUTPUT s3_bucket_name>
 
-aws cloudfront create-invalidation --distribution-id {OUTPUT cloudfront_distribution_id} --path "/index.html"
+aws cloudfront create-invalidation --distribution-id <OUTPUT cloudfront_distribution_id> --path "/index.html"
 
 ## Create User in Cognito
 aws cognito-idp admin-create-user \
@@ -71,3 +72,6 @@ Sample URL: https://api.ce11-capstone-group4.sandbox-ryannguyen1808.sctp-sandbox
   "UserId": "123123qasdasd",
   "Balance": 15
 }
+
+## Ignore Snyk Issue
+snyk ignore --id=SNYK-CC-TF-99 --expiry='2030-01-10' --reason="This API method topup card endpoint is intentionally public"
