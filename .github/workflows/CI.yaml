@@ -146,20 +146,20 @@ jobs:
         fi
 
   Summary:
-  needs: [Snyk-checks, Terraform-checks] # add snyk-checks 
-  runs-on: ubuntu-latest
-  steps:
-    - name: Adding markdown
-      run: |
-        SNYK_STATUS=${{ needs.Snyk-checks.outputs.status }}
-        TF_STATUS=${{ needs.Terraform-checks.outputs.status }}
-        echo '## 🚀 Preparing Build Summary 🚀' >> $GITHUB_STEP_SUMMARY
-        echo '' >> $GITHUB_STEP_SUMMARY
+    needs: [Snyk-checks, Terraform-checks] # add snyk-checks 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Adding markdown
+        run: |
+          SNYK_STATUS=${{ needs.Snyk-checks.outputs.status }}
+          TF_STATUS=${{ needs.Terraform-checks.outputs.status }}
+          echo '## 🚀 Preparing Build Summary 🚀' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
 
-        echo "| Job Name        | Status |" >> $GITHUB_STEP_SUMMARY
-        echo "|-----------------|--------|" >> $GITHUB_STEP_SUMMARY
-        echo "| Snyk-checks     | $SNYK_STATUS |" >> $GITHUB_STEP_SUMMARY
-        echo "| Terraform-check       | $TF_STATUS |" >> $GITHUB_STEP_SUMMARY
-        echo '' >> $GITHUB_STEP_SUMMARY
+          echo "| Job Name        | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Snyk-checks     | $SNYK_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Terraform-check       | $TF_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
 
-        echo '## Job ran by: ${{ github.actor }}' >> $GITHUB_STEP_SUMMARY
+          echo '## Job ran by: ${{ github.actor }}' >> $GITHUB_STEP_SUMMARY
