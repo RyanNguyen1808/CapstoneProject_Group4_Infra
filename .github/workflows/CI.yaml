@@ -15,6 +15,8 @@ on:
 jobs:
   Snyk-checks:
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -36,8 +38,19 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
+      - name: Determine Job Status
+        id: set-status
+        run: |
+          if [ "${{ steps.iac.outcome }}" = "failure" ] || [ "${{ steps.app.outcome }}" = "failure" ]; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+          fi
+
   Terraform-checks:
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.set-status.outputs.status }}
     needs: snyk-checks
     steps:
     - name: Checkout
@@ -122,3 +135,31 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan -var "allowed_origin=$ALLOWED_ORIGIN"
+
+    - name: Determine Terraform Status
+      id: set-status
+      run: |
+        if [ "${{ job.status }}" = "success" ]; then
+          echo "status=success" >> $GITHUB_OUTPUT
+        else
+          echo "status=failure" >> $GITHUB_OUTPUT
+        fi
+
+  Summary:
+    needs: [Snyk-checks, Terraform-checks] # add snyk-checks 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Adding markdown
+        run: |
+          SNYK_STATUS=${{ needs.Snyk-checks.outputs.status }}
+          TF_STATUS=${{ needs.Terraform-checks.outputs.status }}
+          echo '## 🚀 Preparing Build Summary 🚀' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+
+          echo "| Job Name        | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Snyk-checks     | $SNYK_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Terraform-check       | $TF_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+
+          echo '## Job ran by: ${{ github.actor }}' >> $GITHUB_STEP_SUMMARY

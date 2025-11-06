@@ -49,9 +49,6 @@ jobs:
         echo "BACKEND_KEY=$BACKEND_KEY" >> $GITHUB_ENV
         echo "ALLOWED_ORIGIN=$ALLOWED_ORIGIN" >> $GITHUB_ENV
 
-    # - name: Terraform fmt
-    #   run: terraform fmt -check
-    
     - name: Terraform Init
       env:
         BACKEND_KEY: ${{ env.BACKEND_KEY }}
