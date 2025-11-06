@@ -72,3 +72,6 @@ Sample URL: https://api.ce11-capstone-group4.sandbox-ryannguyen1808.sctp-sandbox
   "UserId": "123123qasdasd",
   "Balance": 15
 }
+
+## Ignore Snyk Issue
+snyk ignore --id=SNYK-CC-TF-99 --expiry='2030-01-10' --reason="This API method topup card endpoint is intentionally public"

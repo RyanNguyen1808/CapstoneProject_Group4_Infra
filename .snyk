@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-CC-TF-99:
+    - '*':
+        reason: This API method topup card endpoint is intentionally public
+        expires: 2030-01-10T00:00:00.000Z
+        created: 2025-11-06T06:46:35.825Z
+patch: {}
