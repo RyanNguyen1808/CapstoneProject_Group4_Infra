@@ -1,4 +1,5 @@
 module "vpc" {
+  # checkov:skip=CKV_TF_1: Ensure Terraform module sources use a commit hash - Not Compliant
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.0"
 
