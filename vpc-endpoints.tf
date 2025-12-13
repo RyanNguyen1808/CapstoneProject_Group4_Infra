@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "aws_vpc_endpoint" "logs" {
   vpc_id             = module.vpc.vpc_id
   service_name       = "com.amazonaws.${data.aws_region.current.name}.logs"

@@ -35,7 +35,7 @@ resource "aws_iam_policy" "lambda_exec_role" {
                   "secretsmanager:GetSecretValue"
              ],
              "Resource": [
-                 "${aws_dynamodb_table.cards.arn}",
+                #  "${aws_dynamodb_table.cards.arn}",
                   "${aws_secretsmanager_secret.mysql.arn}"
              ]
          },
