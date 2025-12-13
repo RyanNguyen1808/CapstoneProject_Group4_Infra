@@ -3,6 +3,8 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.5" # or latest stable
 
+  enable_flow_logs = false
+
   name = "${var.name_prefix}-${local.workspace_safe}-vpc"
   cidr = "10.0.0.0/16"
 

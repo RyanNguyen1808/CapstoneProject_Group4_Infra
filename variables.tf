@@ -79,3 +79,13 @@ variable "azs" {
   description = "List of Availability Zones for the VPC"
   type        = list(string)
 }
+
+variable "rds_instance_class" {
+  type    = string
+  default = "db.t3.micro"
+}
+
+variable "db_name" {
+  type    = string
+  default = "ce11-capstone-group4"
+}
