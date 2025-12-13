@@ -86,7 +86,7 @@ jobs:
           BACKEND_KEY="sandbox_${ACTOR}_infra_terraform.tfstate"
           ALLOWED_ORIGIN="${{ secrets.DEV_ALLOWED_ORIGIN }}"
         fi
-        AZs: "${{ vars.AZs }}"
+        AZs: '${{ vars.AZs }}'
 
         echo "Using Terraform workspace: $WORKSPACE"
         echo "Using Terraform backend key: $BACKEND_KEY"
