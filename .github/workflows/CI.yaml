@@ -91,7 +91,7 @@ jobs:
         echo "Using Terraform workspace: $WORKSPACE"
         echo "Using Terraform backend key: $BACKEND_KEY"
         echo "using Allowed Origin: $ALLOWED_ORIGIN"
-        echo "using Azs: $AZS"
+        echo "using Azs: $AZs"
 
         echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
         echo "BACKEND_KEY=$BACKEND_KEY" >> $GITHUB_ENV
