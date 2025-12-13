@@ -64,7 +64,7 @@ jobs:
         terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var "allowed_origin=$ALLOWED_ORIGIN"
+      run: terraform apply -auto-approve -var "allowed_origin=$ALLOWED_ORIGIN" -var "azs=vars.S3_BUCKET_FOR_TF_STATE_FILE"
 
     - name: Get Terraform Output
       run: |

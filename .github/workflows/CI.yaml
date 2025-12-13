@@ -134,7 +134,7 @@ jobs:
         terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
 
     - name: Terraform Plan
-      run: terraform plan -var "allowed_origin=$ALLOWED_ORIGIN"
+      run: terraform plan -var "allowed_origin=$ALLOWED_ORIGIN" -var "azs=vars.S3_BUCKET_FOR_TF_STATE_FILE"
 
     - name: Determine Terraform Status
       id: set-status

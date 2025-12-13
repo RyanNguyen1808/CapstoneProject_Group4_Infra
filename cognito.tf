@@ -1,46 +1,46 @@
-resource "aws_cognito_user_pool" "user_pool" {
-  name = "${var.name_prefix}-user-pool-${local.workspace_safe}"
+# resource "aws_cognito_user_pool" "user_pool" {
+#   name = "${var.name_prefix}-user-pool-${local.workspace_safe}"
 
-  username_attributes = ["email"]
+#   username_attributes = ["email"]
 
-  auto_verified_attributes = ["email"]
+#   auto_verified_attributes = ["email"]
 
-  password_policy {
-    minimum_length    = 8
-    require_uppercase = true
-    require_lowercase = true
-    require_numbers   = true
-    require_symbols   = false
-  }
-}
+#   password_policy {
+#     minimum_length    = 8
+#     require_uppercase = true
+#     require_lowercase = true
+#     require_numbers   = true
+#     require_symbols   = false
+#   }
+# }
 
-resource "aws_cognito_user_pool_client" "app" {
-  name         = "${var.name_prefix}-app-client-${local.workspace_safe}"
-  user_pool_id = aws_cognito_user_pool.user_pool.id
+# resource "aws_cognito_user_pool_client" "app" {
+#   name         = "${var.name_prefix}-app-client-${local.workspace_safe}"
+#   user_pool_id = aws_cognito_user_pool.user_pool.id
 
-  explicit_auth_flows = [
-    "ALLOW_USER_PASSWORD_AUTH",
-    "ALLOW_REFRESH_TOKEN_AUTH",
-  ]
+#   explicit_auth_flows = [
+#     "ALLOW_USER_PASSWORD_AUTH",
+#     "ALLOW_REFRESH_TOKEN_AUTH",
+#   ]
 
-  generate_secret = false
+#   generate_secret = false
 
-  callback_urls = [
-    var.dev_callback_url, # for local dev
-    var.prod_callback_url # for production
-  ]
+#   callback_urls = [
+#     var.dev_callback_url, # for local dev
+#     var.prod_callback_url # for production
+#   ]
 
-  logout_urls = [
-    var.dev_logout_url,
-    var.prod_logout_url
-  ]
+#   logout_urls = [
+#     var.dev_logout_url,
+#     var.prod_logout_url
+#   ]
 
-  supported_identity_providers = ["COGNITO"]
+#   supported_identity_providers = ["COGNITO"]
 
-  prevent_user_existence_errors = "ENABLED"
-}
+#   prevent_user_existence_errors = "ENABLED"
+# }
 
-resource "aws_cognito_user_pool_domain" "domain" {
-  domain       = "${var.cognito_auth_domain}-auth-${local.workspace_safe}"
-  user_pool_id = aws_cognito_user_pool.user_pool.id
-}
+# resource "aws_cognito_user_pool_domain" "domain" {
+#   domain       = "${var.cognito_auth_domain}-auth-${local.workspace_safe}"
+#   user_pool_id = aws_cognito_user_pool.user_pool.id
+# }
