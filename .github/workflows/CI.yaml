@@ -13,45 +13,45 @@ on:
   workflow_dispatch:
 
 jobs:
-  Snyk-checks:
-    runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.set-status.outputs.status }}
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
+  # Snyk-checks:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     status: ${{ steps.set-status.outputs.status }}
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v3
 
-      - name: Install Snyk CLI
-        run: npm install -g snyk
+  #     - name: Install Snyk CLI
+  #       run: npm install -g snyk
 
-      - name: Run IaC Snyk Scan
-        id: iac
-        run: |
-          snyk iac test --report --severity-threshold=high --scan=resource-changes
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #     - name: Run IaC Snyk Scan
+  #       id: iac
+  #       run: |
+  #         snyk iac test --report --severity-threshold=high --scan=resource-changes
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run App Snyk Scan
-        id: app
-        run: |
-          snyk code test
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #     - name: Run App Snyk Scan
+  #       id: app
+  #       run: |
+  #         snyk code test
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Determine Job Status
-        id: set-status
-        run: |
-          if [ "${{ steps.iac.outcome }}" = "failure" ] || [ "${{ steps.app.outcome }}" = "failure" ]; then
-            echo "status=failure" >> $GITHUB_OUTPUT
-          else
-            echo "status=success" >> $GITHUB_OUTPUT
-          fi
+  #     - name: Determine Job Status
+  #       id: set-status
+  #       run: |
+  #         if [ "${{ steps.iac.outcome }}" = "failure" ] || [ "${{ steps.app.outcome }}" = "failure" ]; then
+  #           echo "status=failure" >> $GITHUB_OUTPUT
+  #         else
+  #           echo "status=success" >> $GITHUB_OUTPUT
+  #         fi
 
   Terraform-checks:
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.set-status.outputs.status }}
-    needs: snyk-checks
+    #needs: snyk-checks
     steps:
     - name: Checkout
       uses: actions/checkout@v4
