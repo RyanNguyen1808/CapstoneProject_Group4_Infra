@@ -48,7 +48,7 @@ resource "aws_db_instance" "mysql" {
   instance_class             = var.rds_instance_class
   allocated_storage          = 20
   storage_type               = "gp3"
-  db_name                    = "${var.db_name}"
+  db_name                    = var.db_name
   db_subnet_group_name       = aws_db_subnet_group.mysql.name
   vpc_security_group_ids     = [aws_security_group.mysql.id]
   publicly_accessible        = false
