@@ -1,6 +1,7 @@
 resource "random_password" "mysql" {
-  length  = 20
-  special = true
+  length           = 20
+  special          = true
+  override_special = "!#$%^&*()-_=+[]{}|;:,.<>?" # only allowed special chars
 }
 
 resource "aws_security_group" "mysql" {
