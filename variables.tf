@@ -87,5 +87,5 @@ variable "rds_instance_class" {
 
 variable "db_name" {
   type    = string
-  default = "ce11-capstone-group4"
+  default = "ce11capstonegroup4DB"
 }
