@@ -28,7 +28,7 @@ module "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    Environment = "${local.workspace_safe}"
+    Environment = local.workspace_safe
   }
 
   public_subnet_tags = {
