@@ -86,14 +86,17 @@ jobs:
           BACKEND_KEY="sandbox_${ACTOR}_infra_terraform.tfstate"
           ALLOWED_ORIGIN="${{ secrets.DEV_ALLOWED_ORIGIN }}"
         fi
+        AZs: ${{ vars.AZs }}
 
         echo "Using Terraform workspace: $WORKSPACE"
         echo "Using Terraform backend key: $BACKEND_KEY"
         echo "using Allowed Origin: $ALLOWED_ORIGIN"
+        echo "using Azs: $AZS"
 
         echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
         echo "BACKEND_KEY=$BACKEND_KEY" >> $GITHUB_ENV
         echo "ALLOWED_ORIGIN=$ALLOWED_ORIGIN" >> $GITHUB_ENV
+        echo "AZs=$AZs" >> $GITHUB_ENV
 
     - name: Terraform fmt
       run: terraform fmt -check
@@ -134,8 +137,7 @@ jobs:
         terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
 
     - name: Terraform Plan
-      run: terraform plan -var "allowed_origin=$ALLOWED_ORIGIN" -var "azs=vars.S3_BUCKET_FOR_TF_STATE_FILE"
-
+      run: terraform plan -var "allowed_origin=$ALLOWED_ORIGIN" -var "azs=$AZs"
     - name: Determine Terraform Status
       id: set-status
       run: |
