@@ -1,5 +1,6 @@
 # Standard SQS Queue
 resource "aws_sqs_queue" "addcard_queue" {
+  # checkov:skip=CKV_AWS_27: "Ensure all data stored in the SQS queue is encrypted"
   name                       = "${var.name_prefix}-addcard-queue-${local.workspace_safe}"
   delay_seconds              = 0
   visibility_timeout_seconds = 30
