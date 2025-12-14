@@ -38,6 +38,10 @@ resource "aws_api_gateway_integration" "add_card_integration" {
 
   credentials = aws_iam_role.apigw_sqs_role.arn
 
+  request_parameters = {
+    "integration.request.header.Content-Type" = "'application/x-www-form-urlencoded'"
+  }
+
   request_templates = {
     "application/json" = <<EOF
 Action=SendMessage&MessageBody=$util.urlEncode($input.body)
