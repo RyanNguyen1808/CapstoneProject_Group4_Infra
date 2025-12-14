@@ -14,5 +14,6 @@ resource "aws_secretsmanager_secret_version" "mysql" {
     password = random_password.mysql.result
     host     = aws_db_instance.mysql.address
     database = aws_db_instance.mysql.db_name
+    port     = aws_db_instance.mysql.port
   })
 }
