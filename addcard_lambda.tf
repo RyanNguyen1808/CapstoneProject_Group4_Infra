@@ -11,7 +11,7 @@ resource "aws_lambda_function" "addcard_lambda" {
   handler       = "AddCard.lambda_handler"
   role          = aws_iam_role.lambda_exec.arn
   memory_size   = 256 # Increase memory (default is 128 MB)
-  timeout       = 10  # Increase timeout in seconds (default is 3)
+  timeout       = 30  # Increase timeout in seconds (default is 3)
 
   filename = "${path.module}/Lambda/AddCardCode.zip"
 
@@ -58,6 +58,15 @@ resource "aws_security_group" "lambda_sg" {
   tags = {
     Name = "lambda-sg"
   }
+}
+
+resource "aws_security_group_rule" "lambda_to_sm_endpoint" {
+  type              = "egress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.lambda_sg.id
+  cidr_blocks       = ["10.0.0.0/16"] # or the VPC CIDR
 }
 
 # resource "aws_lambda_permission" "apigw_invoke_add_card" {
