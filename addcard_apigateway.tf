@@ -33,7 +33,7 @@ resource "aws_api_gateway_integration" "add_card_integration" {
   type                    = "AWS"
   integration_http_method = "POST"
 
-  uri = "arn:aws:apigateway:${data.aws_region.current.name}:sqs:path/${data.aws_caller_identity.current.account_id}/${aws_sqs_queue.cards_queue.name}"
+  uri = "arn:aws:apigateway:${data.aws_region.current.name}:sqs:path/${data.aws_caller_identity.current.account_id}/${aws_sqs_queue.addcard_queue.name}"
 
   credentials = aws_iam_role.apigw_sqs_role.arn
 
