@@ -1,6 +1,4 @@
-data "aws_region" "current" {}
 
-data "aws_caller_identity" "current" {}
 
 # API Resource for /card
 resource "aws_api_gateway_resource" "card" {

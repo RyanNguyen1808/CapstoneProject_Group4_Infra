@@ -31,3 +31,9 @@
 #   depends_on  = [aws_api_gateway_domain_name.custom]
 #   domain_name = aws_api_gateway_domain_name.custom.domain_name
 # }
+
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {
+  id = module.vpc.vpc_id
+}
