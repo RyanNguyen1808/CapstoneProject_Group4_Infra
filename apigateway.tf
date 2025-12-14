@@ -66,12 +66,12 @@ resource "aws_api_gateway_stage" "api_stage" {
 #   }
 # }
 
-resource "aws_api_gateway_authorizer" "cognito" {
-  name                   = "cognito-authorizer"
-  rest_api_id            = aws_api_gateway_rest_api.api.id
-  authorizer_uri         = "" # Not needed for Cognito, see next
-  authorizer_credentials = null
-  type                   = "COGNITO_USER_POOLS"
-  provider_arns          = [aws_cognito_user_pool.user_pool.arn]
-  identity_source        = "method.request.header.Authorization"
-}
+# resource "aws_api_gateway_authorizer" "cognito" {
+#   name                   = "cognito-authorizer"
+#   rest_api_id            = aws_api_gateway_rest_api.api.id
+#   authorizer_uri         = "" # Not needed for Cognito, see next
+#   authorizer_credentials = null
+#   type                   = "COGNITO_USER_POOLS"
+#   provider_arns          = [aws_cognito_user_pool.user_pool.arn]
+#   identity_source        = "method.request.header.Authorization"
+# }
