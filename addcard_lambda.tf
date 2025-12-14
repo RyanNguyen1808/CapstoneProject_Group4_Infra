@@ -15,11 +15,11 @@ resource "aws_lambda_function" "addcard_lambda" {
 
   filename = "${path.module}/Lambda/AddCardCode.zip"
 
-  #   environment {
-  #     variables = {
-  #       CARDS_TABLE = "${var.name_prefix}-${var.cards_table_name}-${local.workspace_safe}"
-  #     }
-  #   }
+  environment {
+    variables = {
+      DB_SECRET_NAME = aws_secretsmanager_secret.mysql.arn
+    }
+  }
 
   vpc_config {
     subnet_ids         = module.vpc.private_subnets
