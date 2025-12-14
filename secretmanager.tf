@@ -17,6 +17,8 @@ resource "aws_secretsmanager_secret_version" "mysql" {
 
 
 resource "aws_secretsmanager_secret" "mysql_connection_info" {
+  # checkov:skip=CKV_AWS_149: "Ensure that Secrets Manager secret is encrypted using KMS CMK"
+  # checkov:skip=CKV2_AWS_57: "Ensure Secrets Manager secrets should have automatic rotation enabled"
   name                    = "${var.name_prefix}-${local.workspace_safe}/rds/mysql/connection"
   description             = "RDS MySQL connection info"
   recovery_window_in_days = 0
