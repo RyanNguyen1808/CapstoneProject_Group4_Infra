@@ -60,7 +60,7 @@ resource "aws_security_group" "lambda_sg" {
   }
 }
 
-resource "aws_security_group_rule" "lambda_to_sm_endpoint" {
+resource "aws_security_group_rule" "egress_lambda_to_sm_endpoint" {
   # checkov:skip=CKV_AWS_23: "Ensure every security group and rule has a description"
   type              = "egress"
   from_port         = 443
