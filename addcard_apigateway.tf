@@ -44,7 +44,43 @@ resource "aws_api_gateway_integration" "add_card_integration" {
 
   request_templates = {
     "application/json" = <<EOF
-Action=SendMessage&MessageBody=$util.urlEncode($input.body)
-EOF
+                            Action=SendMessage&MessageBody=$util.urlEncode($input.body)
+                           EOF
   }
+}
+
+resource "aws_api_gateway_integration_response" "add_card_integration_response" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.add.id
+  http_method = aws_api_gateway_method.add_post.http_method
+
+  # 1. The HTTP status code the client should receive (200 OK)
+  status_code = aws_api_gateway_method_response.add_post_response_200.status_code
+
+  # 2. The Integration Status Code (from SQS) we are mapping (200 OK)
+  selection_pattern = "" # Maps to all 200 responses if left blank
+
+  # 3. Mapping Templates to format the SQS response body
+  response_templates = {
+    "application/json" = <<-EOF
+                            {
+                                "status": "success",
+                                "message": "Add Card request successfully queued.",
+                                "sqs_message_id": "$input.json('$.SendMessageResponse.SendMessageResult.MessageId')"
+                            }
+                            EOF
+  }
+
+  # NOTE: You may also need to define the method response if you haven't already:
+  depends_on = [
+    aws_api_gateway_method_response.add_post_response_200
+  ]
+}
+
+# Ensure you have this corresponding method response resource defined
+resource "aws_api_gateway_method_response" "add_post_response_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.add.id
+  http_method = aws_api_gateway_method.add_post.http_method
+  status_code = "200"
 }
