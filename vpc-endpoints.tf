@@ -1,4 +1,6 @@
-data "aws_region" "current" {}
+data "aws_region" "current" {
+  id = module.vpc.vpc_id
+}
 
 resource "aws_vpc_endpoint" "logs" {
   vpc_id             = module.vpc.vpc_id
