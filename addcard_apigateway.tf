@@ -44,7 +44,7 @@ resource "aws_api_gateway_integration" "add_card_integration" {
 
   request_templates = {
     "application/json" = <<EOF
-MessageBody=$util.urlEncode($input.body)
+Action=SendMessage&MessageBody=$util.urlEncode($input.body)
 EOF
   }
 }
