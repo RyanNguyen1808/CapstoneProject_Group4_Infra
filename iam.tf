@@ -32,11 +32,16 @@ resource "aws_iam_policy" "lambda_exec_role" {
                  "dynamodb:DeleteItem",
                  "dynamodb:Scan",
                  "dynamodb:UpdateItem",
-                  "secretsmanager:GetSecretValue"
+                 "secretsmanager:GetSecretValue",
+                 "sqs:ReceiveMessage",
+                 "sqs:DeleteMessage",
+                 "sqs:GetQueueAttributes",
+                 "sqs:ChangeMessageVisibility"
              ],
              "Resource": [
                   "${aws_secretsmanager_secret.mysql_connection_info.arn}",
-                  "${aws_secretsmanager_secret.mysql.arn}"
+                  "${aws_secretsmanager_secret.mysql.arn}",
+                  "${aws_sqs_queue.addcard_queue.arn}"
              ]
          },
          {
