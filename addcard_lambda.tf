@@ -17,7 +17,8 @@ resource "aws_lambda_function" "addcard_lambda" {
 
   environment {
     variables = {
-      DB_SECRET_NAME = aws_secretsmanager_secret.mysql_connection_info.arn
+      DB_SECRET = aws_secretsmanager_secret.mysql.arn,
+      DB_INFO   = aws_secretsmanager_secret.mysql_connection_info.arn
     }
   }
 

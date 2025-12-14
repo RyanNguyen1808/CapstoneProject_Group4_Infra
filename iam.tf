@@ -35,7 +35,8 @@ resource "aws_iam_policy" "lambda_exec_role" {
                   "secretsmanager:GetSecretValue"
              ],
              "Resource": [
-                  "${aws_secretsmanager_secret.mysql_connection_info.arn}*"
+                  "${aws_secretsmanager_secret.mysql_connection_info.arn}",
+                  "${aws_secretsmanager_secret.mysql.arn}",
              ]
          },
          {
