@@ -71,10 +71,10 @@ resource "aws_api_gateway_integration_response" "add_card_integration_response" 
                             EOF
   }
 
-  # NOTE: You may also need to define the method response if you haven't already:
-  depends_on = [
-    aws_api_gateway_method_response.add_post_response_200
-  ]
+  #   # NOTE: You may also need to define the method response if you haven't already:
+  #   depends_on = [
+  #     aws_api_gateway_method_response.add_post_response_200
+  #   ]
 }
 
 # Ensure you have this corresponding method response resource defined
