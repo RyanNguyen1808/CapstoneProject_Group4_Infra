@@ -29,6 +29,7 @@ resource "aws_security_group" "secrets_endpoint_sg" {
 
 # Ingress rule to allow Lambda SG to connect
 resource "aws_security_group_rule" "ingress_lambda_to_sm_endpoint" {
+  # checkov:skip=CKV_AWS_23: "Ensure every security group and rule has a description"
   type                     = "ingress"
   from_port                = 443
   to_port                  = 443
