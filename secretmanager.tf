@@ -12,5 +12,7 @@ resource "aws_secretsmanager_secret_version" "mysql" {
   secret_string = jsonencode({
     username = "admin"
     password = random_password.mysql.result
+    host     = aws_db_instance.mysql.address
+    database = aws_db_instance.mysql.db_name
   })
 }
