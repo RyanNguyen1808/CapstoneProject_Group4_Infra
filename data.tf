@@ -39,6 +39,7 @@ data "aws_region" "current" {
 }
 
 data "aws_ami" "ubuntu" {
+  # checkov:skip=CKV_AWS_386: "Reduce potential for WhoAMI cloud image name confusion attack"
   most_recent = true
 
   filter {
