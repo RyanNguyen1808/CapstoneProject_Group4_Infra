@@ -34,6 +34,16 @@ resource "aws_instance" "ec2_jumphost" {
   vpc_security_group_ids      = [aws_security_group.ec2_jumphost_sg.id]
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.ec2_jumphost_profile.name
+  user_data = templatefile("${path.module}/EC2-Jumphost_UserData/launch.sh", {
+    account_secret_arn = aws_secretsmanager_secret.mysql.arn
+    db_secret_arn      = aws_secretsmanager_secret.mysql_connection_info.arn
+  })
+
+  depends_on = [
+    aws_secretsmanager_secret.mysql,
+    aws_secretsmanager_secret.mysql_connection_info,
+    aws_db_instance.mysql
+  ]
 
   tags = {
     Name = "${var.name_prefix}-${local.workspace_safe}-ec2-jumphost"
