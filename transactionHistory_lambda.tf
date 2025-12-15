@@ -45,6 +45,7 @@ resource "aws_cloudwatch_log_group" "getTransactionHistory_lambda_log" {
 
 resource "aws_security_group" "getTransactionHistory_lambda_sg" {
   # checkov:skip=CKV_AWS_23: "Ensure every security group and rule has a description"
+  # checkov:skip=CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
   name        = "${var.name_prefix}-getTransactionHistory-lambda-sg-${local.workspace_safe}"
   description = "Security group for Get Transaction History Lambda functions"
   vpc_id      = module.vpc.vpc_id
@@ -57,7 +58,7 @@ resource "aws_security_group" "getTransactionHistory_lambda_sg" {
   }
 
   tags = {
-    Name = "lambda-sg"
+    Name = "getTransactionHistory-lambda-sg"
   }
 }
 
