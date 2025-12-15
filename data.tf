@@ -40,11 +40,10 @@ data "aws_region" "current" {
 
 data "aws_ami" "ubuntu" {
   # checkov:skip=CKV_AWS_386: "Reduce potential for WhoAMI cloud image name confusion attack"
-  most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+    values = ["al2023-ami-*-kernel-6.1-x86_64"]
   }
 
   filter {
