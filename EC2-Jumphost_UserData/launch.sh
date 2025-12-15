@@ -12,17 +12,17 @@ ACOUNT_SECRET_JSON=$(aws secretsmanager get-secret-value \
 --query SecretString \
 --output text)
 
-DB_USERNAME=$$(echo "$$ACOUNT_SECRET_JSON" | jq -r .username)
-DB_PASSWORD=$$(echo "$$ACOUNT_SECRET_JSON" | jq -r .password)
+DB_USERNAME=$(echo "$ACOUNT_SECRET_JSON" | jq -r .username)
+DB_PASSWORD=$(echo "$ACOUNT_SECRET_JSON" | jq -r .password)
 
 DB_SECRET_JSON=$(aws secretsmanager get-secret-value \
 --secret-id "$${DB_SECRET}" \
 --query SecretString \
 --output text)
 
-DB_HOST=$$(echo "$$DB_SECRET_JSON" | jq -r .host)
-DB_DBNAME=$$(echo "$$DB_SECRET_JSON" | jq -r .database)
+DB_HOST=$(echo "$DB_SECRET_JSON" | jq -r .host)
+DB_DBNAME=$(echo "$DB_SECRET_JSON" | jq -r .database)
 
-mysql -h "$$DB_HOST" -u "$$DB_USERNAME" -p"$$DB_PASSWORD" "$$DB_DBNAME" <<EOF
+mysql -h "$DB_HOST" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DBNAME" <<EOF
 CREATE TABLE IF NOT EXISTS CARDS ( CARD_ID VARCHAR(36) NOT NULL, USER_ID VARCHAR(36) NOT NULL, BALANCE DOUBLE NOT NULL DEFAULT 0.00, PRIMARY KEY (CARD_ID) );
 EOF
