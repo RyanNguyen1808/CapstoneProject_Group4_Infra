@@ -41,6 +41,10 @@ data "aws_region" "current" {
 data "aws_ami" "ubuntu" {
   # checkov:skip=CKV_AWS_386: "Reduce potential for WhoAMI cloud image name confusion attack"
 
+  most_recent = true
+
+  owners = ["amazon"]
+
   filter {
     name   = "name"
     values = ["al2023-ami-*-kernel-6.1-x86_64"]
