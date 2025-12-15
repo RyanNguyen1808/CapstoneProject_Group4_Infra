@@ -7,7 +7,7 @@ resource "aws_api_gateway_resource" "card" {
   path_part   = "card"
 }
 
-# API Resource for /card/{cardId}/add
+# API Resource for /card/add
 resource "aws_api_gateway_resource" "add" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_resource.card.id

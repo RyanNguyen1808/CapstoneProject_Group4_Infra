@@ -45,7 +45,7 @@ resource "aws_cloudwatch_log_group" "addcard_lambda_log" {
 
 resource "aws_security_group" "lambda_sg" {
   # checkov:skip=CKV_AWS_23: "Ensure every security group and rule has a description"
-  name        = "${var.name_prefix}-lambda-sg-${local.workspace_safe}"
+  name        = "${var.name_prefix}-add-card-lambda-sg-${local.workspace_safe}"
   description = "Security group for Lambda functions"
   vpc_id      = module.vpc.vpc_id
 
