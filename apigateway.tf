@@ -12,6 +12,8 @@ resource "aws_api_gateway_deployment" "api" {
     # aws_api_gateway_integration.topup_integration,
     aws_api_gateway_method.add_post,
     aws_api_gateway_integration.add_card_integration,
+    aws_api_gateway_method.getTransactionHistory_post,
+    aws_api_gateway_integration.getTransactionHistory_integration
   ]
 
   triggers = {
