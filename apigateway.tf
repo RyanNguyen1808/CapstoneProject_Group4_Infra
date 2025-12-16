@@ -16,8 +16,6 @@ resource "aws_api_gateway_deployment" "api" {
 
   triggers = {
     redeployment = sha1(jsonencode([
-      #   aws_api_gateway_method.topup_post.id,
-      #   aws_api_gateway_integration.topup_integration.id,
       aws_api_gateway_method.add_post.id,
       aws_api_gateway_integration.add_card_integration.id,
       aws_api_gateway_method.getTransactionHistory_post.id,
