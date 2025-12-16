@@ -58,7 +58,7 @@ resource "aws_security_group" "getCards_lambda_sg" {
   }
 
   tags = {
-    Name = "getCards-lambda-sg"
+    Name = "${var.name_prefix}-getCards-lambda-sg-${local.workspace_safe}"
   }
 }
 

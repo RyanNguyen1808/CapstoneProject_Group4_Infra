@@ -58,7 +58,7 @@ resource "aws_security_group" "getTransactionHistory_lambda_sg" {
   }
 
   tags = {
-    Name = "getTransactionHistory-lambda-sg"
+    Name = "${var.name_prefix}-getTransactionHistory-lambda-sg-${local.workspace_safe}"
   }
 }
 
