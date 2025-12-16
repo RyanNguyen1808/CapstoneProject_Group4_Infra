@@ -55,25 +55,25 @@ resource "aws_api_gateway_domain_name" "custom" {
   }
 }
 
-# resource "aws_api_gateway_base_path_mapping" "mapping" {
-#   depends_on  = [data.aws_api_gateway_domain_name.custom_ready]
-#   count       = (contains(["dev", "prod"], local.workspace_safe) || startswith(local.workspace_safe, "sandbox-")) ? 1 : 0
-#   api_id      = aws_api_gateway_rest_api.api.id
-#   stage_name  = aws_api_gateway_stage.api_stage[0].stage_name
-#   domain_name = aws_api_gateway_domain_name.custom.domain_name
-#   base_path   = local.workspace_safe
+resource "aws_api_gateway_base_path_mapping" "mapping" {
+  depends_on  = [data.aws_api_gateway_domain_name.custom_ready]
+  count       = (contains(["dev", "prod"], local.workspace_safe) || startswith(local.workspace_safe, "sandbox-")) ? 1 : 0
+  api_id      = aws_api_gateway_rest_api.api.id
+  stage_name  = aws_api_gateway_stage.api_stage[0].stage_name
+  domain_name = aws_api_gateway_domain_name.custom.domain_name
+  base_path   = local.workspace_safe
 
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-# }
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
-# resource "aws_api_gateway_authorizer" "cognito" {
-#   name                   = "cognito-authorizer"
-#   rest_api_id            = aws_api_gateway_rest_api.api.id
-#   authorizer_uri         = "" # Not needed for Cognito, see next
-#   authorizer_credentials = null
-#   type                   = "COGNITO_USER_POOLS"
-#   provider_arns          = [aws_cognito_user_pool.user_pool.arn]
-#   identity_source        = "method.request.header.Authorization"
-# }
+resource "aws_api_gateway_authorizer" "cognito" {
+  name                   = "cognito-authorizer"
+  rest_api_id            = aws_api_gateway_rest_api.api.id
+  authorizer_uri         = "" # Not needed for Cognito, see next
+  authorizer_credentials = null
+  type                   = "COGNITO_USER_POOLS"
+  provider_arns          = [aws_cognito_user_pool.user_pool.arn]
+  identity_source        = "method.request.header.Authorization"
+}
