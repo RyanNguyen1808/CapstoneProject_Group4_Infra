@@ -9,21 +9,21 @@ resource "aws_api_gateway_deployment" "api" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   depends_on = [
     aws_api_gateway_method.add_post,
-    aws_api_gateway_integration.add_card_integration
-    # aws_api_gateway_method.getTransactionHistory_post,
-    # aws_api_gateway_integration.getTransactionHistory_integration,
-    # aws_api_gateway_method.getCards_post,
-    # aws_api_gateway_integration.getCards_integration
+    aws_api_gateway_integration.add_card_integration,
+    aws_api_gateway_method.getTransactionHistory_post,
+    aws_api_gateway_integration.getTransactionHistory_integration,
+    aws_api_gateway_method.getCards_post,
+    aws_api_gateway_integration.getCards_integration
   ]
 
   triggers = {
     redeployment = sha1(jsonencode([
       aws_api_gateway_method.add_post.id,
-      aws_api_gateway_integration.add_card_integration.id
-      # aws_api_gateway_method.getTransactionHistory_post.id,
-      # aws_api_gateway_integration.getTransactionHistory_integration.id,
-      # aws_api_gateway_method.getCards_post.id,
-      # aws_api_gateway_integration.getCards_integration.id
+      aws_api_gateway_integration.add_card_integration.id,
+      aws_api_gateway_method.getTransactionHistory_post.id,
+      aws_api_gateway_integration.getTransactionHistory_integration.id,
+      aws_api_gateway_method.getCards_post.id,
+      aws_api_gateway_integration.getCards_integration.id
     ]))
   }
 }
