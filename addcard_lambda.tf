@@ -24,7 +24,7 @@ resource "aws_lambda_function" "addcard_lambda" {
 
   vpc_config {
     subnet_ids         = module.vpc.private_subnets
-    security_group_ids = [aws_security_group.lambda_sg.id]
+    security_group_ids = [aws_security_group.addcard_lambda_sg.id]
   }
 
   # IMPORTANT: Ignore changes to code so CI/CD can overwrite
