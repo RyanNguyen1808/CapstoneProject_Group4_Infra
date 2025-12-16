@@ -5,7 +5,7 @@ resource "aws_vpc_endpoint" "logs" {
   service_name        = "com.amazonaws.${data.aws_region.current.name}.logs"
   vpc_endpoint_type   = "Interface"
   subnet_ids          = module.vpc.private_subnets
-  security_group_ids  = [aws_security_group.lambda_sg.id]
+  security_group_ids  = [aws_security_group.addcard_lambda_sg.id, aws_security_group.getCards_lambda_sg.id, aws_security_group.getTransactionHistory_lambda_sg.id]
   private_dns_enabled = true
 }
 
