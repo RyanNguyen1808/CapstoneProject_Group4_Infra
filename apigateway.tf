@@ -46,14 +46,14 @@ resource "aws_api_gateway_stage" "api_stage" {
   deployment_id = aws_api_gateway_deployment.api.id
 }
 
-# resource "aws_api_gateway_domain_name" "custom" {
-#   # checkov:skip=CKV_AWS_206:Ensure API Gateway Domain uses a modern security Policy - Not Compliant
-#   domain_name              = "api.${var.name_prefix}.${local.workspace_safe}.${var.domain}"
-#   regional_certificate_arn = module.acm.acm_certificate_arn
-#   endpoint_configuration {
-#     types = ["REGIONAL"]
-#   }
-# }
+resource "aws_api_gateway_domain_name" "custom" {
+  # checkov:skip=CKV_AWS_206:Ensure API Gateway Domain uses a modern security Policy - Not Compliant
+  domain_name              = "api.${var.name_prefix}.${local.workspace_safe}.${var.domain}"
+  regional_certificate_arn = module.acm.acm_certificate_arn
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
+}
 
 # resource "aws_api_gateway_base_path_mapping" "mapping" {
 #   depends_on  = [data.aws_api_gateway_domain_name.custom_ready]
