@@ -8,8 +8,6 @@ resource "aws_api_gateway_deployment" "api" {
   # checkov:skip=CKV_AWS_217: Ensure Create before destroy for API deployments - Not Compliant
   rest_api_id = aws_api_gateway_rest_api.api.id
   depends_on = [
-    # aws_api_gateway_method.topup_post,
-    # aws_api_gateway_integration.topup_integration,
     aws_api_gateway_method.add_post,
     aws_api_gateway_integration.add_card_integration,
     aws_api_gateway_method.getTransactionHistory_post,
@@ -21,7 +19,9 @@ resource "aws_api_gateway_deployment" "api" {
       #   aws_api_gateway_method.topup_post.id,
       #   aws_api_gateway_integration.topup_integration.id,
       aws_api_gateway_method.add_post.id,
-      aws_api_gateway_integration.add_card_integration.id
+      aws_api_gateway_integration.add_card_integration.id,
+      aws_api_gateway_method.getTransactionHistory_post.id,
+      aws_api_gateway_integration.getTransactionHistory_integration.id
     ]))
   }
 }
