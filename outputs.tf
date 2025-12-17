@@ -33,7 +33,6 @@ output "website_url" {
   value       = "https://${var.name_prefix}.${local.workspace_safe}.${var.domain}"
 }
 
-<<<<<<< HEAD
 output "rds_endpoint" {
   value = aws_db_instance.mysql.endpoint
 }
@@ -44,9 +43,4 @@ output "rds_port" {
 
 output "secret_arn" {
   value = aws_secretsmanager_secret.mysql.arn
-=======
-output "cards_table_name" {
-  description = "Cards Table Name"
-  value       = aws_dynamodb_table.cards.name
->>>>>>> origin/main
 }
