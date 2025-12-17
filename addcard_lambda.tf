@@ -34,6 +34,8 @@ resource "aws_lambda_function" "addcard_lambda" {
       source_code_hash
     ]
   }
+
+  depends_on = [aws_db_instance.mysql]
 }
 
 resource "aws_cloudwatch_log_group" "addcard_lambda_log" {
