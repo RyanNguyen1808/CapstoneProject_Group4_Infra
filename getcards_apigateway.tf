@@ -12,9 +12,8 @@ resource "aws_api_gateway_method" "getCards_post" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.getCards.id
   http_method   = "POST"
-  authorization = "NONE"
-  #   authorization = "COGNITO_USER_POOLS"
-  #   authorizer_id = aws_api_gateway_authorizer.cognito.id
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.cognito.id
 }
 
 # Integration with Lambda
