@@ -138,7 +138,12 @@ jobs:
         terraform workspace select $WORKSPACE || terraform workspace new $WORKSPACE
 
     - name: Terraform Plan
+<<<<<<< HEAD
       run: terraform plan -var "allowed_origin=$ALLOWED_ORIGIN" -var "azs=$AZs"
+=======
+      run: terraform plan -var "allowed_origin=$ALLOWED_ORIGIN"
+
+>>>>>>> origin/main
     - name: Determine Terraform Status
       id: set-status
       run: |
