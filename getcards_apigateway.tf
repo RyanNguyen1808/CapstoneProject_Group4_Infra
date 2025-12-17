@@ -46,7 +46,7 @@ resource "aws_api_gateway_integration_response" "getCards_integration_response" 
   rest_api_id       = aws_api_gateway_rest_api.api.id
   resource_id       = aws_api_gateway_resource.getCards.id
   http_method       = aws_api_gateway_method.getCards_post.http_method
-  status_code       = aws_api_gateway_method_response.getCards_post_response_200.status_code
+  status_code       = "200"
   selection_pattern = ""
 
   # CORS START
