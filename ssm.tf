@@ -9,5 +9,6 @@ resource "aws_ssm_parameter" "cloudfront_distribution_id" {
     cloudfront_distribution_id = aws_cloudfront_distribution.s3_distribution.id
     cognito_user_pool_id       = aws_cognito_user_pool.user_pool.id
     cognito_app_client_id      = aws_cognito_user_pool_client.app.id
+    base_url                   = local.alternate_domain_name
   })
 }
