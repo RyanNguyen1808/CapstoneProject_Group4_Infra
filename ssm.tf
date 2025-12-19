@@ -1,6 +1,6 @@
 resource "aws_ssm_parameter" "cloudfront_distribution_id" {
   # checkov:skip=CKV2_AWS_34: "AWS SSM Parameter should be Encrypted"
-  name        = "/${var.name_prefix}/${local.workspace_safe}/cconfig"
+  name        = "/${var.name_prefix}/${local.workspace_safe}/config"
   description = "CloudFront distribution ID and Cognito for Frontend Usagefor ${var.name_prefix}"
   type        = "String"
   overwrite   = true
