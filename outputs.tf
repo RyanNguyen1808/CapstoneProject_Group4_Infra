@@ -46,5 +46,5 @@ output "secret_arn" {
 }
 
 output "ssm_parameter_name" {
-  value = ssm_parameter_name.system_parameter.name
+  value = aws_ssm_parameter.system_parameter.name
 }
