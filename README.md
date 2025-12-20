@@ -41,20 +41,5 @@
 ## INSTRUCTIONS
 * **Kindly read the output of CD and add the above REPO SECRETS as well as REPO VARIABLES**
 
-## As of 17th December 2025, the following components have been DONE
-* S3 bucket for website
-* Cloudfront Distribution linked to S3 as Origin
-* Cognito for Authorization
-* MySQL RDS
-* VPC
-* Secret Manager
-* Add Card API ---> Add Card SQS ---> Add Card Lambda ---> MySQL RDS
-* EC2 Jump Host for Setting up and Manage RDS via Terraform
-* Transaction History API ---> Transaction History Lambda ---> MySQL RDS
-
-## TO-DO
-* Topup Card API ---> Topup Card SQS ---> Top up Card Lambda ---> MySQL RDS
-* Deduct Card API ---> Deduct Card SQS ---> Deduct Card Lambda ---> MySQL RDS
-
 ## TABLES SCHEMA
 ![Tables Schema](/images/Tables.JPG "Table Schema.")
