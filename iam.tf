@@ -88,7 +88,11 @@ resource "aws_iam_role_policy" "apigw_sqs_policy" {
     Statement = [{
       Effect   = "Allow"
       Action   = "sqs:SendMessage"
-      Resource = aws_sqs_queue.addcard_queue.arn
+      Resource = [
+        aws_sqs_queue.addcard_queue.arn,
+        aws_sqs_queue.topup_queue.arn,
+        aws_sqs_queue.deduct_queue.arn
+      ]
     }]
   })
 }
