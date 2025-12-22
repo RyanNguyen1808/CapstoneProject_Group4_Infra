@@ -74,12 +74,3 @@ resource "aws_api_gateway_integration_response" "deduct_options_integration_resp
     "application/json" = ""
   }
 }
-
-# Lambda permission
-resource "aws_lambda_permission" "apigw_deduct" {
-  statement_id  = "AllowAPIGatewayInvokeDeduct"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.deduct_lambda.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/POST/card/deduct"
-}
