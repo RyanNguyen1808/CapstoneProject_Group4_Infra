@@ -35,7 +35,7 @@ resource "aws_lambda_function" "getTransactionHistory_lambda" {
     ]
   }
 
-  depends_on = [aws_lambda_function.getCards_lambda]
+  depends_on = [aws_db_instance.mysql]
 }
 
 resource "aws_cloudwatch_log_group" "getTransactionHistory_lambda_log" {

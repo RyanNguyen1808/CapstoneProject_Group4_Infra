@@ -35,7 +35,7 @@ resource "aws_lambda_function" "getCards_lambda" {
     ]
   }
 
-  depends_on = [aws_lambda_function.addcard_lambda]
+  depends_on = [aws_db_instance.mysql]
 }
 
 resource "aws_cloudwatch_log_group" "getCards_lambda_log" {
