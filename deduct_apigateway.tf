@@ -89,7 +89,7 @@ resource "aws_api_gateway_integration_response" "deduct_card_integration_respons
   # NOTE: You may also need to define the method response if you haven't already:
   depends_on = [
     aws_api_gateway_method_response.deduct_post_response_200,
-    aws_api_gateway_integration.deduct_card_integration
+    aws_api_gateway_integration.deduct_integration
   ]
 }
 
