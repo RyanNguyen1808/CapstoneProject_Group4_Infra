@@ -86,8 +86,8 @@ resource "aws_iam_role_policy" "apigw_sqs_policy" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect   = "Allow"
-      Action   = "sqs:SendMessage"
+      Effect = "Allow"
+      Action = "sqs:SendMessage"
       Resource = [
         aws_sqs_queue.addcard_queue.arn,
         aws_sqs_queue.topup_queue.arn,
