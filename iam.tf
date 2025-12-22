@@ -27,11 +27,6 @@ resource "aws_iam_policy" "lambda_exec_role" {
          {
              "Effect": "Allow",
              "Action": [
-                 "dynamodb:GetItem",
-                 "dynamodb:PutItem",
-                 "dynamodb:DeleteItem",
-                 "dynamodb:Scan",
-                 "dynamodb:UpdateItem",
                  "secretsmanager:GetSecretValue",
                  "sqs:ReceiveMessage",
                  "sqs:DeleteMessage",
@@ -41,7 +36,9 @@ resource "aws_iam_policy" "lambda_exec_role" {
              "Resource": [
                   "${aws_secretsmanager_secret.mysql_connection_info.arn}",
                   "${aws_secretsmanager_secret.mysql.arn}",
-                  "${aws_sqs_queue.addcard_queue.arn}"
+                  "${aws_sqs_queue.addcard_queue.arn}",
+                  "${aws_sqs_queue.topup_queue.arn}",
+                  "${aws_sqs_queue.deduct_queue.arn}"
              ]
          },
          {
