@@ -21,9 +21,76 @@ resource "aws_api_gateway_integration" "topup_integration" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
   resource_id             = aws_api_gateway_resource.topup.id
   http_method             = aws_api_gateway_method.topup_post.http_method
+  type                    = "AWS"
   integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.topup_lambda.invoke_arn
+  passthrough_behavior    = "WHEN_NO_MATCH"
+
+  uri = "arn:aws:apigateway:${data.aws_region.current.name}:sqs:path/${data.aws_caller_identity.current.account_id}/${aws_sqs_queue.topup_queue.name}"
+
+  credentials = aws_iam_role.apigw_sqs_role.arn
+
+  request_parameters = {
+    "integration.request.header.Content-Type" = "'application/x-www-form-urlencoded'"
+  }
+
+  request_templates = {
+    "application/json" = <<EOF
+Action=SendMessage&MessageBody=$util.urlEncode($input.body)
+EOF
+  }
+}
+
+# Ensure you have this corresponding method response resource defined
+resource "aws_api_gateway_method_response" "topup_post_response_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.topup.id
+  http_method = aws_api_gateway_method.topup_post.http_method
+  status_code = "200"
+
+  # CORS START: enable headers in method response
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+  }
+  # CORS END
+}
+
+resource "aws_api_gateway_integration_response" "topup_card_integration_response" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.topup.id
+  http_method = aws_api_gateway_method.topup_post.http_method
+
+  # 1. The HTTP status code the client should receive (200 OK)
+  status_code = aws_api_gateway_method_response.topup_post_response_200.status_code
+
+  # 2. The Integration Status Code (from SQS) we are mapping (200 OK)
+  selection_pattern = "" # Maps to all 200 responses if left blank
+
+  # 3. Mapping Templates to format the SQS response body
+  response_templates = {
+    "application/json" = <<-EOF
+                            {
+                                "status": "success",
+                                "message": "Topup request successfully queued.",
+                                "sqs_message_id": $input.json('$.SendMessageResponse.SendMessageResult.MessageId')
+                            }
+                            EOF
+  }
+
+  # CORS START: add headers to POST integration response
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = "'${var.allowed_origin}'"
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,POST'"
+  }
+  # CORS END
+
+  # NOTE: You may also need to define the method response if you haven't already:
+  depends_on = [
+    aws_api_gateway_method_response.topup_post_response_200,
+    aws_api_gateway_integration.topup_card_integration
+  ]
 }
 
 resource "aws_api_gateway_method" "topup_options" {
