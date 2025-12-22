@@ -97,7 +97,7 @@ resource "aws_iam_role_policy" "apigw_sqs_policy" {
 }
 
 resource "aws_iam_policy" "ec2_secrets_access" {
-  name = ${var.name_prefix}-ec2-secretsmanager-access-${local.workspace_safe}
+  name = "${var.name_prefix}-ec2-secretsmanager-access-${local.workspace_safe}"
 
   policy = jsonencode({
     Version = "2012-10-17"
