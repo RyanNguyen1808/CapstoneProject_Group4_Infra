@@ -35,7 +35,7 @@ resource "aws_lambda_function" "topup_lambda" {
     ]
   }
 
-  depends_on = [aws_db_instance.mysql]
+  depends_on = [aws_lambda_function.getTransactionHistory_lambda]
 }
 
 resource "aws_cloudwatch_log_group" "topup_lambda_log" {
