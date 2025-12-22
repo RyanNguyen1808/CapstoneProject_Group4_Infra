@@ -77,5 +77,5 @@ resource "aws_security_group_rule" "ingress_topup_lambda_to_sm_endpoint" {
   to_port                  = 443
   protocol                 = "tcp"
   security_group_id        = aws_security_group.secrets_endpoint_sg.id
-  source_security_group_id = aws_security_group.egress_topup_lambda_to_sm_endpoint.id
+  source_security_group_id = aws_security_group.topup_lambda_sg.id
 }
